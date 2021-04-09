@@ -22,14 +22,8 @@ if(isset($postdata) && !empty($postdata))
 			$sql = "INSERT INTO users(username, password, nickname) VALUES ('$username','$pwd','$nickname')";
 		    $ret = $mysqli->query($sql);
 			
-			$authdata = [
-				'username' => $username,
-				'pwd' => $pwd,
-				'nickname' => $nickname,
-				'user_type' => 'learner',
-				'Id' => mysqli_insert_id($mysqli)
-				];
-				echo json_encode($authdata);
+			$chk = checkRecord ($mysqli,  $username, $pwd);
+			echo $chk;
 				
 	} else {
 		$rows = array();
@@ -40,4 +34,21 @@ if(isset($postdata) && !empty($postdata))
 		echo json_encode($rows);
 	}
 }
+
+/*
+Author : jiten
+**/
+function checkRecord ( $mysqli,  $username, $pwd ) {
+	
+	$sql = "SELECT * FROM users where username='$username' and password='$pwd'";
+	$result = mysqli_query($mysqli,$sql);
+	
+	$rows = array();
+	while($row = mysqli_fetch_assoc($result))
+	{
+		$rows[] = $row;
+	}
+	return json_encode($rows);
+}
+
 ?>
