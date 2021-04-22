@@ -71,7 +71,7 @@ function count_score($user_id, $mysqli) {
 	
     $result = mysqli_query($mysqli, $sql);
 	$row = mysqli_fetch_array($result);
-	return $row['score'];
+	return isset($row['score'])?$row['score']:0;
 	
 } // EO count_score()
 
